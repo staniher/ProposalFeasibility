@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employability Recommender System</title>
+    <link rel="stylesheet" href= "{{ url_for('static',filename='fontawesome/css/all.min.css')}}"> 
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet" /> 
+    <link rel="stylesheet" href= "{{ url_for('static',filename='css/tooplate-wave-cafe.css')}}">
+	<link rel = "icon" href = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Flag-map_of_the_Democratic_Republic_of_the_Congo.svg/607px-Flag-map_of_the_Democratic_Republic_of_the_Congo.svg.png?20150131003052" 
+        type = "image/x-icon">
+
+</head>
+<body>
+  <div class="tm-container">
+    <div class="tm-row">
+      <!-- Site Header -->
+      <div class="tm-left">
+        <div class="tm-left-inner">
+          <div class="tm-site-header">
+            
+			 <img src="{{ url_for('static', filename='images/logo.png')}}"/>
+            <h1 class="tm-site-name"> <p style="font-size:12pt;text-align:center;">Recommender System Prototype for IT Students' Employability in the DR Congo</p></h1>
+          </div>
+          <nav class="tm-site-nav">
+            <ul class="tm-site-nav-ul">
+
+              <li class="tm-page-nav-item">
+                <a href="#about" class="tm-page-link">
+                  <i class="fas fa-users tm-page-link-icon"></i>
+                  <span>About Us</span>
+                </a>
+              </li>
+
+              <li class="tm-page-nav-item">
+                <a href="#fill_background" class="tm-page-link active">
+                  <i class="fas fa-users tm-page-link-icon"></i>
+                  <span>Fill Background</span>
+                </a>
+              </li>
+			  <li class="tm-page-nav-item">
+                <a href="#fill_background" class="tm-page-link">
+                  <i class="fas fa-home tm-page-link-icon"></i>
+                  <span>Refill Background</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>        
+      </div>
+      <div class="tm-right">
+        <main class="tm-main">
+          <!-- About Us Page -->
+		 {% if similar_backgrounds is defined %}
+				
+				<div id="about" class="tm-page-content">
+		
+					{% for backgroundData in similar_backgrounds %}
+						<div class="tm-black-bg tm-mb-20 tm-about-box-1"> 
+     			
+							<h2 class="tm-text-primary tm-about-header">Background Matching</h2>
+								<div class="tm-list-item tm-list-item-2">                
+									<img height=20 width=20 src="{{ backgroundData.Avatar }}" alt="Image" class="tm-list-item-img tm-list-item-img-big">
+									<div class="tm-list-item-text-2">
+										<p style="font-size:11pt;text-align:justify;">
+										This IT Graduate Studied in a <b style="color:red;font-style:bold;">{{ backgroundData.UniversityType }}
+										University</b> and  Completed <b style="color:red;font-style:bold;">{{ backgroundData.Degree }}</b>'s Degree in 
+										<b style="color:red;font-style:bold;">{{ backgroundData.Specialisation }}</b> and Had the Simililar
+										Socio-politics and Financial Background like You. The Graduate is <b style="color:red;font-style:bold;"> 
+										{{ backgroundData.Employed }}</b> and Had <b style="color:red;font-style:bold;">{{backgroundData.SpecialisationCompetence }}
+										</b>Level of Competency in <b style="color:red;font-style:bold;">{{ backgroundData.Specialisation }}</b> and 
+										<b style="color:red;font-style:bold;">{{ backgroundData.ITCompetence }}</b> Level of Knowledge in Information 
+										Technology in General.</p>
+										
+									</div>                
+								</div>
+						</div>   
+          
+	                {% endfor %}
+				</div>
+		{% endif %}
+          <!-- end About Us Page -->
+
+          <!-- Fill background Page -->
+          <div id="fill_background" class="tm-page-content">
+            <div class="tm-black-bg tm-contact-text-container">
+              <h2 class="tm-text-primary">Information </h2>
+              <p style="font-size:10pt;text-align:justify;">Deep Recommender System for IT Employability Profile (DeRecSITEmP)is a prototype of a 
+			  Hybrid Recommendation System (Deep Content-Based) intended to recommend the employability profile
+			  to students enrolling in any IT Course in Congolese Universities. The student has to fill in his/her background in the form below and 
+			  the system returns three profiles of IT graduates who had the same background entered as a query by the student and informs him if 
+			  these graduates could be employed after their IT studies or not....</p>
+            </div>
+            <div class="tm-black-bg tm-contact-form-container tm-align-right">
+              <form method="POST" id="contact-form">
+			  <p style="font-size:23pt;text-align:center;">Fill your Background  </p>   
+                <div class="tm-form-group">
+                  <label for="sel1" style="font-size:10pt;color:yellow;font-style:bold;">Were You Born in War Zone?</label>
+				  <select class="tm-form-control" name="BornWar">                    
+							 {% for BornWar in list_bornwar %}
+                            <option style="font-size:15pt;color:blue;font-style:bold;">{{BornWar}}</option>
+                            {% endfor %}                      
+                        </select>
+                </div>
+				  <div class="tm-form-group">
+                  <label for="sel1" style="font-size:10pt;color:yellow;font-style:bold;">What type of university do you want to attend?</label>
+				  <select class="tm-form-control" name="UniversityType">
+                          
+                            {% for UniversityType in list_univtype %}
+                            <option style="font-size:15pt;color:blue;font-style:bold;">{{UniversityType}}</option>
+                            {% endfor %} 
+                          
+                        </select>
+                </div>
+				  <div class="tm-form-group">
+                  <label for="sel1" style="font-size:10pt;color:yellow;font-style:bold;">Where is this university located?</label>
+				  <select class="tm-form-control" name="InstitutionLocation">
+                          
+                            {% for InstitutionLocation in list_instloc %}
+                            <option style="font-size:15pt;color:blue;font-style:bold;">{{InstitutionLocation}}</option>
+                            {% endfor %}     
+                        </select>
+                </div>
+				   <div class="tm-form-group">
+                  <label for="sel1" style="font-size:10pt;color:yellow;font-style:bold;">Is this University located in a War Zone?</label>
+				  <select class="tm-form-control" name="SchoolWar">
+                          
+                           {% for SchoolWar in list_schwar %}
+                            <option style="font-size:15pt;color:blue;font-style:bold;">{{SchoolWar}}</option>
+                            {% endfor %} 
+                          
+                        </select>
+                </div> 
+				   <div class="tm-form-group">
+                  <label for="sel1" style="font-size:10pt;color:yellow;font-style:bold;">Have you ever experienced an epidemic (Ebola, Cholera, etc.) in your home region? </label>
+				  <select class="tm-form-control" name="HomeEpidemic">
+                          
+                            {% for HomeEpidemic in list_homepi %}
+                            <option style="font-size:15pt;color:blue;font-style:bold;">{{HomeEpidemic}}</option>
+                            {% endfor %} 
+                          
+                        </select>
+                </div>
+			    <div class="tm-form-group">
+                  <label for="sel1" style="font-size:10pt;color:yellow;font-style:bold;">Which Degree are you enrolling in?</label>
+				  <select class="tm-form-control" name="Degree">
+                          {% for Degree in list_degree %}
+                            <option style="font-size:15pt;color:blue;font-style:bold;">{{Degree}}</option>
+                            {% endfor %} 
+                        </select>
+                </div>
+				<div class="tm-form-group">
+                  <label for="sel1" style="font-size:10pt;color:yellow;font-style:bold;">What is the financial situation of your family?</label>
+				  <select class="tm-form-control" name="Family">
+                          
+                              {% for Family in list_family %}
+                            <option style="font-size:15pt;color:blue;font-style:bold;">{{Family}}</option>
+                            {% endfor %} 
+                        </select> 
+                </div>
+				<div class="tm-form-group">
+                  <label for="sel1" style="font-size:10pt;color:yellow;font-style:bold;">Do you have politicians in your family?</label>
+				  <select class="tm-form-control" name="PoliticianFam">
+                          
+                            {% for PoliticianFam in list_polfam %}
+                            <option style="font-size:15pt;color:blue;font-style:bold;">{{PoliticianFam}}</option>
+                            {% endfor %} 
+                          
+                        </select>
+                </div>
+					<div class="tm-form-group">
+                  <label for="sel1" style="font-size:10pt;color:yellow;font-style:bold;">Do you have family members who work in public administration?</label>
+				  <select class="tm-form-control" name="AdminstrativeFam">
+                          
+                             {% for AdminstrativeFam in list_admfam %}
+                            <option style="font-size:15pt;color:blue;font-style:bold;">{{AdminstrativeFam}}</option>
+                            {% endfor %} 
+
+                        </select>
+                </div>
+					<div class="tm-form-group">
+                  <label for="sel1" style="font-size:10pt;color:yellow;font-style:bold;">Do you have family members who work in private companies?</label>
+				  <select class="tm-form-control" name="CompanyFam">
+                          
+                             {% for CompanyFam in list_comfam %}
+                            <option style="font-size:15pt;color:blue;font-style:bold;">{{CompanyFam}}</option>
+                            {% endfor %} 
+                          
+                        </select>
+                </div>
+					<div class="tm-form-group">
+                  <label for="sel1" style="font-size:10pt;color:yellow;font-style:bold;">Is your father employed?</label>
+				  <select class="tm-form-control" name="Father">
+                          
+                             {% for Father in list_fat %}
+                            <option style="font-size:15pt;color:blue;font-style:bold;">{{Father}}</option>
+                            {% endfor %} 
+                          
+                        </select>
+                </div>
+					<div class="tm-form-group">
+                  <label for="sel1" style="font-size:10pt;color:yellow;font-style:bold;">Is your mother employed?</label>
+				  <select class="tm-form-control" name="Mother">
+                          
+                            {% for Mother in list_mot %}
+                            <option style="font-size:15pt;color:blue;font-style:bold;">{{Mother}}</option>
+                            {% endfor %} 
+                          
+                        </select>
+                </div>
+      
+                <div>
+                  <button type="submit" class="tm-btn-primary tm-align-right" value="Recommender">
+                    Recommender
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- end Contact Page -->
+        </main>
+      </div>    
+    </div>
+    <footer class="tm-site-footer">
+      <p class="tm-black-bg tm-footer-text">&copy; Copyright 2022-<script>document.write(new Date().getFullYear())</script>, Nsenge Mpia Heritier
+      
+      | Ph.D. Student at <a href="https://www.kca.ac.ke" class="tm-footer-link" rel="sponsored" target="_parent">KCA University/School of Technology</a></p>
+    </footer>
+  </div>
+    
+  <!-- Background video -->
+  <div class="tm-video-wrapper">
+      <i id="tm-video-control-button" class="fas fa-pause"></i>
+      <video autoplay muted loop id="tm-video">
+          <source src="{{ url_for('static', filename='video/wave-cafe-video-bg.mp4')}}" type="video/mp4">
+      </video>
+  </div>
+
+  <script src="js/jquery-3.4.1.min.js"></script>    
+  <script>
+
+    function setVideoSize() {
+      const vidWidth = 1920;
+      const vidHeight = 1080;
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+      const tempVidWidth = windowHeight * vidWidth / vidHeight;
+      const tempVidHeight = windowWidth * vidHeight / vidWidth;
+      const newVidWidth = tempVidWidth > windowWidth ? tempVidWidth : windowWidth;
+      const newVidHeight = tempVidHeight > windowHeight ? tempVidHeight : windowHeight;
+      const tmVideo = $('#tm-video');
+
+      tmVideo.css('width', newVidWidth);
+      tmVideo.css('height', newVidHeight);
+    }
+
+    function openTab(evt, id) {
+      $('.tm-tab-content').hide();
+      $('#' + id).show();
+      $('.tm-tab-link').removeClass('active');
+      $(evt.currentTarget).addClass('active');
+    }    
+
+    function initPage() {
+      let pageId = location.hash;
+
+      if(pageId) {
+        highlightMenu($(`.tm-page-link[href^="${pageId}"]`)); 
+        showPage($(pageId));
+      }
+      else {
+        pageId = $('.tm-page-link.active').attr('href');
+        showPage($(pageId));
+      }
+    }
+
+    function highlightMenu(menuItem) {
+      $('.tm-page-link').removeClass('active');
+      menuItem.addClass('active');
+    }
+
+    function showPage(page) {
+      $('.tm-page-content').hide();
+      page.show();
+    }
+
+    $(document).ready(function(){
+
+      /***************** Pages *****************/
+
+      initPage();
+
+      $('.tm-page-link').click(function(event) {
+        
+        if(window.innerWidth > 991) {
+          event.preventDefault();
+        }
+
+        highlightMenu($(event.currentTarget));
+        showPage($(event.currentTarget.hash));
+      });
+
+      
+      /***************** Tabs *******************/
+
+      $('.tm-tab-link').on('click', e => {
+        e.preventDefault(); 
+        openTab(e, $(e.target).data('id'));
+      });
+
+      $('.tm-tab-link.active').click(); // Open default tab
+
+
+      /************** Video background *********/
+
+      setVideoSize();
+
+      // Set video background size based on window size
+      let timeout;
+      window.onresize = function(){
+        clearTimeout(timeout);
+        timeout = setTimeout(setVideoSize, 100);
+      };
+
+      // Play/Pause button for video background      
+      const btn = $("#tm-video-control-button");
+
+      btn.on("click", function(e) {
+        const video = document.getElementById("tm-video");
+        $(this).removeClass();
+
+        if (video.paused) {
+          video.play();
+          $(this).addClass("fas fa-pause");
+        } else {
+          video.pause();
+          $(this).addClass("fas fa-play");
+        }
+      });
+    });
+      
+  </script>
+</body>
+</html>
